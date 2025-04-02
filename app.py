@@ -15,6 +15,13 @@ try:
     asyncio.get_running_loop()
 except RuntimeError:
     asyncio.set_event_loop(asyncio.new_event_loop())
+
+@st.cache_resource
+def load_ocr():
+    return PaddleOCR(use_angle_cls=True, lang="en", use_gpu=False)
+
+ocr = load_ocr()  # This will persist across reruns
+
     
 # --------------------- Image Enhancement Functions ---------------------
 def apply_clahe(image):
