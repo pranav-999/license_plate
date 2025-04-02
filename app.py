@@ -9,6 +9,7 @@ from PIL import Image
 from ultralytics import YOLO
 from paddleocr import PaddleOCR
 import asyncio
+import concurrent.futures
 
 try:
     asyncio.get_running_loop()
@@ -224,7 +225,12 @@ def main():
 
                 # OCR processing
                 with st.spinner("Reading license plate text..."):
-                    ocr_result = ocr_reader.ocr(cropped_plate, cls=True)
+                    def run_ocr(image):
+                        return ocr_reader.ocr(image, cls=True)
+                
+                    with concurrent.futures.ThreadPoolExecutor() as executor:
+                        future = executor.submit(run_ocr, cropped_plate)
+                        ocr_result = future.result()
                     extracted_text = " ".join([word_info[1][0] for line in ocr_result for word_info in line])
                     cleaned_text = clean_text(extracted_text)
                     
