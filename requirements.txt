@@ -4,5 +4,6 @@ numpy
 torch
 torchvision
 ultralytics
+paddlepaddle
 paddleocr
 pillow
