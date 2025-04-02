@@ -8,7 +8,6 @@ import torchvision.transforms as transforms
 from PIL import Image
 from ultralytics import YOLO
 from paddleocr import PaddleOCR
-
 import asyncio
 
 try:
@@ -16,13 +15,6 @@ try:
 except RuntimeError:
     asyncio.set_event_loop(asyncio.new_event_loop())
 
-@st.cache_resource
-def load_ocr():
-    return PaddleOCR(use_angle_cls=True, lang="en", use_gpu=False)
-
-ocr = load_ocr()  # This will persist across reruns
-
-    
 # --------------------- Image Enhancement Functions ---------------------
 def apply_clahe(image):
     """Apply CLAHE to enhance contrast"""
@@ -115,7 +107,7 @@ def load_yolo_model():
 
 @st.cache_resource(show_spinner=False)
 def load_paddleocr_reader():
-    return PaddleOCR(use_angle_cls=True, lang="en")
+    return PaddleOCR(use_angle_cls=True, lang="en", use_gpu=False)
 
 @st.cache_resource(show_spinner=False)
 def load_dehazing_model():
