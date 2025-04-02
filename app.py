@@ -97,7 +97,7 @@ class ImprovedDehazingUNet(nn.Module):
 # --------------------- Model Loading Functions ---------------------
 @st.cache_resource(show_spinner=False)
 def load_yolo_model():
-    return YOLO("runs/detect/train2/weights/best.pt")
+    return YOLO("best.pt")
 
 @st.cache_resource(show_spinner=False)
 def load_paddleocr_reader():
